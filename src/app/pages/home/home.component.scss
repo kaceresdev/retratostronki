@@ -1,0 +1,44 @@
+.home {
+  height: 100vh;
+  &__carrusel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    img {
+      position: absolute;
+      max-height: 100%;
+      left: -50%;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    img.active {
+      opacity: 1;
+    }
+
+    .fade {
+      transition: opacity 1s ease;
+    }
+    &__professional {
+      position: absolute;
+      bottom: 5rem;
+      width: 100%;
+      h1 {
+        font-family: "DMSans";
+        font-size: 40px;
+        letter-spacing: 7px;
+        color: white;
+        text-align: center;
+        font-weight: 300;
+      }
+      p {
+        font-family: "DMSans";
+        font-size: 15px;
+        letter-spacing: 3px;
+        color: white;
+        text-align: center;
+        font-weight: 300;
+      }
+    }
+  }
+}

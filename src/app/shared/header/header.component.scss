@@ -1,0 +1,135 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 5rem;
+  background-color: white;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  img {
+    height: 5rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: "DMSans";
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    white-space: nowrap;
+  }
+
+  &.hidden {
+    img,
+    h1 {
+      display: none;
+    }
+  }
+
+  #nav-icon {
+    width: 100%;
+    height: 20px;
+    margin: 0 1rem;
+    position: relative;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.5s ease-in-out;
+    -moz-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+  }
+
+  #nav-icon span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    max-width: 25px;
+    background: black;
+    border-radius: 9px;
+    opacity: 1;
+    right: 0;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.25s ease-in-out;
+    -moz-transition: 0.25s ease-in-out;
+    -o-transition: 0.25s ease-in-out;
+    transition: 0.25s ease-in-out;
+  }
+
+  #nav-icon span:nth-child(1) {
+    top: 0px;
+  }
+
+  #nav-icon span:nth-child(2) {
+    top: 7.5px;
+  }
+
+  #nav-icon span:nth-child(3) {
+    top: 15px;
+  }
+
+  #nav-icon.open span:nth-child(1) {
+    top: 10px;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    transform: rotate(135deg);
+  }
+
+  #nav-icon.open span:nth-child(2) {
+    opacity: 0;
+    right: -60px;
+  }
+
+  #nav-icon.open span:nth-child(3) {
+    top: 10px;
+    -webkit-transform: rotate(-135deg);
+    -moz-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+}
+
+#menu {
+  opacity: 0;
+  z-index: -1;
+  background-color: white;
+  color: black;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  margin-top: 5rem;
+  transition: opacity 0.5s cubic-bezier(0, 0, 0.07, 1);
+  nav {
+    margin-top: 50%;
+    font-family: "DMSans";
+    font-weight: 400;
+  }
+  div.item {
+    position: relative;
+    text-align: center;
+    font-size: x-large;
+    height: 1.5em;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+}
+
+#menu.show {
+  opacity: 1;
+  z-index: 2;
+}
+
+.footer__develop__logo {
+  bottom: 0;
+  position: fixed;
+}

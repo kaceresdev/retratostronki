@@ -1,0 +1,11 @@
+<div class="home">
+  <div class="home__carrusel">
+    @for (image of images; track $index) {
+    <img [src]="image" [class.active]="$index === currentImageIndex" class="fade" alt="carousel image" />
+    }
+    <div class="home__carrusel__professional">
+      <h1>JOSE AGUIRRE</h1>
+      <p>FOTOGRAFÍA DEPORTIVA</p>
+    </div>
+  </div>
+</div>

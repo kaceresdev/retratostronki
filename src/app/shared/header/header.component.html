@@ -11,7 +11,7 @@
   <nav>
     @for (item of menuItems; track item.route) {
     <div class="item">
-      <a (click)="toggleNavIcon()" [routerLink]="item.route">{{ item.title }}</a>
+      <a (click)="toggleNavIcon(); scrollToTop(item.route)" [routerLink]="item.route">{{ item.title }}</a>
     </div>
     }
   </nav>

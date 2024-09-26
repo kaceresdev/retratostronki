@@ -1,0 +1,23 @@
+<div class="contact-me">
+  <form class="contact-me__form" [formGroup]="mailForm" (ngSubmit)="sendEmail()">
+    <h2>Contacta conmigo</h2>
+    <label for="email">Email</label>
+    <input type="email" formControlName="email" (input)="mailForm.get('email')?.markAsUntouched()" />
+    @if (mailForm.get('email')?.hasError('email') && mailForm.get('email')?.touched) {
+    <small class="contact-me__form__error">El email no es valido</small>
+    }
+    <label for="subject">Asunto</label>
+    <input type="text" formControlName="subject" />
+    <label for="comments">Mensaje</label>
+    <textarea formControlName="message"></textarea>
+    <div class="contact-me__form__divButton">
+      <button type="submit" [disabled]="!mailForm.valid">Enviar</button>
+    </div>
+  </form>
+  @if (isEmailSend || isEmailKO) {
+  <app-modal [wasSent]="isEmailSend" (closeModal)="isEmailSend = false; isEmailKO = false"></app-modal>
+  }
+</div>
+@if (isLoading) {
+<app-loader></app-loader>
+}

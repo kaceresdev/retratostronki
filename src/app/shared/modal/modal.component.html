@@ -1,0 +1,15 @@
+<div id="modal" class="modal">
+  <div class="modal__content">
+    @if (wasSent) {
+    <div class="modal__content__text">
+      <img src="assets/img/ok.svg" alt="OK" width="22" />
+      <p>Mensaje enviado correctamente</p>
+    </div>
+    } @if (!wasSent) {
+    <div class="modal__content__text">
+      <img src="assets/img/error.svg" alt="OK" width="22" />
+      <p>Se ha producido un error, vuelva a intentarlo más tarde</p>
+    </div>
+    }
+  </div>
+</div>

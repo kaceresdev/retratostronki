@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-header",
@@ -20,13 +20,15 @@ export class HeaderComponent {
     },
     {
       title: "Contacto",
-      route: "/contact",
+      route: "/contact-me",
     },
     {
       title: "Sesiones Fotográficas",
       route: "/photosessions",
     },
   ];
+
+  constructor(private router: Router) {}
 
   toggleNavIcon() {
     const nav = document.getElementById("nav-icon");
@@ -40,5 +42,13 @@ export class HeaderComponent {
     // Evitar el desplazamiento vertical del contenido de la página BODY y HTML
     document.documentElement.style.overflowY = menu!.style.display === "block" ? "hidden" : "auto";
     document.body.style.overflowY = menu!.style.display === "block" ? "hidden" : "auto";
+  }
+
+  scrollToTop(route?: string) {
+    if (this.router.url === route || !route) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0 });
+    }
   }
 }

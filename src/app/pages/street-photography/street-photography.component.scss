@@ -1,0 +1,54 @@
+.street-photography {
+  min-height: 100vh;
+  margin-top: 5rem;
+  padding: 1.5rem;
+  &__nav {
+    ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 2rem;
+      padding: 0;
+      margin-top: 0;
+      font-family: "DMSans";
+      font-size: 15px;
+      color: black;
+      font-weight: 200;
+      letter-spacing: 0.5px;
+      li {
+        list-style: none;
+        line-height: 2rem;
+        &.active {
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+  }
+  .box {
+    position: relative;
+    &:not(:last-of-type) {
+      margin-bottom: 1rem;
+    }
+    img {
+      width: -webkit-fill-available;
+    }
+    &__text {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      font-family: "DMSans";
+      font-size: 17px;
+      color: white;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      p {
+        text-align: center;
+        margin: 0;
+        &:last-of-type {
+          color: rgb(255 255 255 / 70%);
+        }
+      }
+    }
+  }
+}

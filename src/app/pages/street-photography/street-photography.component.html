@@ -2,18 +2,18 @@
   <nav class="street-photography__nav">
     <ul>
       @for (item of menuItems; track $index) {
-      <li (click)="filter(menuItems[$index])" [class.active]="activeTab === menuItems[$index]">
-        {{ menuItems[$index] }}
+      <li (click)="filter(item)" [class.active]="activeTab === item">
+        {{ item }}
       </li>
       }
     </ul>
   </nav>
   @for (folder of photoFoldersFiltered; track $index) {
   <div class="box">
-    <img [src]="'assets/imgs/' + folder.image" alt="" />
+    <img [src]="folder.thumbnailLink" alt="" />
     <div class="box__text">
-      <p>{{ folder.location }}</p>
-      <p>{{ folder.date }}</p>
+      <p>{{ folder.description }}</p>
+      <p>{{ folder.name }}</p>
     </div>
   </div>
   }

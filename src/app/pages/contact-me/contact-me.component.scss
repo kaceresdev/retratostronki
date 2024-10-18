@@ -41,7 +41,6 @@
       width: 100%;
       width: -moz-available; /* WebKit-based browsers will ignore this. */
       width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-      width: fill-available;
       line-height: 1.5;
       padding: 10px;
       border: 1px solid rgba(43, 43, 43, 0.2);
@@ -67,7 +66,6 @@
       text-align: center;
       width: -moz-available; /* WebKit-based browsers will ignore this. */
       width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-      width: fill-available;
       margin: 3vh 0;
       button {
         width: 70%;

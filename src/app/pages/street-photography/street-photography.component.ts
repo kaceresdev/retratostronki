@@ -1,16 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { GoogleDriveService } from "../../services/google-drive/google-drive.service";
 import { firstValueFrom } from "rxjs";
+import { LoaderComponent } from "../../shared/loader/loader.component";
 
 @Component({
   selector: "app-street-photography",
   standalone: true,
-  imports: [],
+  imports: [LoaderComponent],
   templateUrl: "./street-photography.component.html",
   styleUrl: "./street-photography.component.scss",
 })
 export class StreetPhotographyComponent implements OnInit {
-  menuItems = JSON.parse(localStorage.getItem("googleDriveFolders")!)
+  isLoading = false;
+  menuItems = JSON.parse(sessionStorage.getItem("googleDriveFolders")!)
     .folders.filter((folder: { id: string; name: string }) => folder.name === "Fotos Calle")[0]
     .childs.map((item: { id: string; name: any }) => item.name);
   activeTab: string = "";
@@ -18,6 +20,8 @@ export class StreetPhotographyComponent implements OnInit {
   previewImages: any[] = [];
   photoFolders: any[] = [];
   photoFoldersFiltered: any[] = [];
+
+  readonly IMAGE_NO_PREVIEW = "assets/imgs/no_preview2.svg";
 
   constructor(private googleDriveService: GoogleDriveService) {}
 
@@ -28,7 +32,13 @@ export class StreetPhotographyComponent implements OnInit {
 
     this.streetPhotosFolder = this._findPrincipalFolder("Fotos Calle");
 
-    await this._getPreviewImages();
+    // Control para no recuperar la info cada vez que entramos en la pantalla
+    if (sessionStorage.getItem("googleDrivePreviewImages")) {
+      this.previewImages = JSON.parse(sessionStorage.getItem("googleDrivePreviewImages")!);
+    } else {
+      await this._getPreviewImages();
+    }
+
     this._transformInfo(this.streetPhotosFolder.childs);
   }
 
@@ -41,7 +51,7 @@ export class StreetPhotographyComponent implements OnInit {
   }
 
   private _findPrincipalFolder(folderName: string) {
-    return JSON.parse(localStorage.getItem("googleDriveFolders")!).folders.find((folder: any) => folder.name === folderName);
+    return JSON.parse(sessionStorage.getItem("googleDriveFolders")!).folders.find((folder: any) => folder.name === folderName);
   }
 
   private _findPreviewFolders(folders: any[]): any[] {
@@ -61,6 +71,7 @@ export class StreetPhotographyComponent implements OnInit {
   }
 
   private async _getPreviewImages(): Promise<void> {
+    this.isLoading = true;
     let previewsFoldersFound = this._findPreviewFolders(this.streetPhotosFolder.childs);
 
     const promises = previewsFoldersFound.map((preview) => firstValueFrom(this.googleDriveService.getImages(preview.id)));
@@ -73,9 +84,11 @@ export class StreetPhotographyComponent implements OnInit {
           this.previewImages.push(...res.files);
         }
       });
+      sessionStorage.setItem("googleDrivePreviewImages", JSON.stringify(this.previewImages));
     } catch (err) {
       console.error("Error al obtener las imágenes de vista previa:", err);
     }
+    this.isLoading = false;
   }
 
   private _transformInfo(folders: any[]) {
@@ -106,6 +119,7 @@ export class StreetPhotographyComponent implements OnInit {
 
   filter(year: string) {
     this.activeTab = year;
+
     if (year === "Todas") {
       this.photoFoldersFiltered = this.photoFolders;
     } else {
@@ -124,5 +138,13 @@ export class StreetPhotographyComponent implements OnInit {
         thumbnailLink: image.thumbnailLink.replace(/=s\d+/, `=s${resolution}`),
       };
     });
+  }
+
+  // Función que se llama cuando una imagen falla
+  onImageError(event: Event, folder: any) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = this.IMAGE_NO_PREVIEW;
+
+    folder.thumbnailLink = this.IMAGE_NO_PREVIEW;
   }
 }

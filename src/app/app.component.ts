@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.googleDriveService.listFolders().subscribe({
       next: (res) => {
-        localStorage.setItem("googleDriveFolders", JSON.stringify(res));
+        sessionStorage.setItem("googleDriveFolders", JSON.stringify(res));
       },
       error: (err) => {},
       complete: () => {},

@@ -18,6 +18,7 @@
       li {
         list-style: none;
         line-height: 2rem;
+        cursor: pointer;
         &.active {
           border-bottom: 1px solid black;
         }
@@ -30,7 +31,9 @@
       margin-bottom: 1rem;
     }
     img {
+      display: block;
       width: -webkit-fill-available;
+      aspect-ratio: 3/2;
     }
     &__text {
       position: absolute;
@@ -56,6 +59,12 @@
         line-height: 2.5rem;
         padding-bottom: 0;
       }
+    }
+    &:hover {
+      cursor: pointer;
+      -webkit-box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.75);
     }
   }
 }

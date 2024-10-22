@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { GoogleDriveService } from "../../services/google-drive/google-drive.service";
 import { firstValueFrom } from "rxjs";
 import { LoaderComponent } from "../../shared/loader/loader.component";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-street-photography",
@@ -80,7 +81,7 @@ export class StreetPhotographyComponent implements OnInit {
       const results = await Promise.all(promises);
       results.forEach((res) => {
         if (res && res.files) {
-          res.files = this._adjustThumbnailResolution(res.files, 800);
+          res.files = this._adjustThumbnail(res.files, 800);
           this.previewImages.push(...res.files);
         }
       });
@@ -130,12 +131,13 @@ export class StreetPhotographyComponent implements OnInit {
     }
   }
 
-  private _adjustThumbnailResolution(images: any[], resolution = 800) {
+  private _adjustThumbnail(images: any[], resolution = 800) {
     return images.map((image) => {
       return {
         ...image,
         // Cambia cualquier tamaño existente en thumbnailLink por el valor de la resolución
-        thumbnailLink: image.thumbnailLink.replace(/=s\d+/, `=s${resolution}`),
+        thumbnailLink:
+          environment.urlBaseServer + "/proxy-drive" + image.thumbnailLink.split("/drive-storage")[1].replace(/=s\d+/, `=s${resolution}`),
       };
     });
   }

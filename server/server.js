@@ -4,6 +4,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const functions = require("firebase-functions");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
 const port = 8443;
@@ -112,6 +113,22 @@ app.get("/:folderId/files", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// *** Proxy para renderizar las imágenes de Google Drive ***
+// No metemos headers de cacheo porque google ya devuelve cacheo de un día
+app.use(
+  "/proxy-drive",
+  createProxyMiddleware({
+    target: "https://lh3.googleusercontent.com/drive-storage",
+    changeOrigin: true,
+    pathRewrite: {
+      "^/proxy-drive": "",
+    },
+    onProxyRes: function (proxyRes, req, res) {
+      // Opción para ajustar encabezados si es necesario
+    },
+  })
+);
 
 app.listen(port, () => {
   console.log(`Server listening at port ${port}`);

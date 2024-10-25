@@ -1,0 +1,12 @@
+<div class="images-page">
+  <button class="images-page__btn-back" [routerLink]="['/street-photography']" (click)="scrollToTop()">< Volver</button>
+  <div class="images-page__data">
+    <p>{{ info.description }}</p>
+    <p>{{ info.name }}</p>
+  </div>
+  @for (photo of photoFiles; track photo.id; let idx = $index) {
+  <div class="box">
+    <img [src]="photo.thumbnailLink" alt="" />
+  </div>
+  }
+</div>

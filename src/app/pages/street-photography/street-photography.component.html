@@ -9,7 +9,7 @@
     </ul>
   </nav>
   @for (folder of photoFoldersFiltered; track folder.id; let idx = $index) {
-  <div class="box">
+  <div class="box" (click)="viewFolder(folder)">
     <img [src]="folder.thumbnailLink" alt="" (error)="onImageError($event, photoFoldersFiltered[idx])" />
     <div class="box__text" [class.no-preview]="folder.thumbnailLink === IMAGE_NO_PREVIEW">
       <p>{{ folder.description }}</p>

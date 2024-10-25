@@ -3,11 +3,12 @@ import { GoogleDriveService } from "../../services/google-drive/google-drive.ser
 import { firstValueFrom } from "rxjs";
 import { LoaderComponent } from "../../shared/loader/loader.component";
 import { environment } from "../../../environments/environment";
+import { Router, RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "app-street-photography",
   standalone: true,
-  imports: [LoaderComponent],
+  imports: [LoaderComponent, RouterOutlet],
   templateUrl: "./street-photography.component.html",
   styleUrl: "./street-photography.component.scss",
 })
@@ -24,7 +25,7 @@ export class StreetPhotographyComponent implements OnInit {
 
   readonly IMAGE_NO_PREVIEW = "assets/imgs/no_preview2.svg";
 
-  constructor(private googleDriveService: GoogleDriveService) {}
+  constructor(private googleDriveService: GoogleDriveService, private router: Router) {}
 
   async ngOnInit(): Promise<void> {
     this.menuItems.push("Todas");
@@ -45,9 +46,9 @@ export class StreetPhotographyComponent implements OnInit {
 
   sortedMenuItems(menuItems: string[]): string[] {
     return menuItems.sort((a, b) => {
-      if (a === "Todas") return -1; // Mueve 'Todas' al inicio
-      if (b === "Todas") return 1; // Mueve 'Todas' al inicio
-      return a.localeCompare(b); // Ordena el resto cronológicamente
+      if (a === "Todas") return -1;
+      if (b === "Todas") return 1;
+      return a.localeCompare(b);
     });
   }
 
@@ -135,7 +136,6 @@ export class StreetPhotographyComponent implements OnInit {
     return images.map((image) => {
       return {
         ...image,
-        // Cambia cualquier tamaño existente en thumbnailLink por el valor de la resolución
         thumbnailLink:
           environment.urlBaseServer + "/proxy-drive" + image.thumbnailLink.split("/drive-storage")[1].replace(/=s\d+/, `=s${resolution}`),
       };
@@ -148,5 +148,10 @@ export class StreetPhotographyComponent implements OnInit {
     imgElement.src = this.IMAGE_NO_PREVIEW;
 
     folder.thumbnailLink = this.IMAGE_NO_PREVIEW;
+  }
+
+  viewFolder(folder: any) {
+    this.router.navigate(["street-photography", folder.id], { state: folder });
+    window.scrollTo({ top: 0 });
   }
 }

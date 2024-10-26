@@ -102,7 +102,7 @@ app.get("/:folderId/files", async (req, res) => {
     const response = await drive.files.list({
       q: `'${folderId}' in parents and mimeType contains 'image/'`,
       fields: "nextPageToken, files(id, name, mimeType, webContentLink, thumbnailLink)",
-      pageSize: 10,
+      // pageSize: 10, // Comentado: Sin limite de resultados, no habrá pageToken entonces
       pageToken: pageToken, // Usar el pageToken si está presente
     });
     res.status(200).json({

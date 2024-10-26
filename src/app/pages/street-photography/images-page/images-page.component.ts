@@ -3,11 +3,12 @@ import { ActivatedRoute, Route, RouterLink } from "@angular/router";
 import { GoogleDriveService } from "../../../services/google-drive/google-drive.service";
 import { environment } from "../../../../environments/environment";
 import { map } from "rxjs";
+import { NgOptimizedImage } from "@angular/common";
 
 @Component({
   selector: "app-street-photography-images-page",
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, NgOptimizedImage],
   templateUrl: "./images-page.component.html",
   styleUrl: "./images-page.component.scss",
 })

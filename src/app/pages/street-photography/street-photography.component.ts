@@ -4,11 +4,12 @@ import { firstValueFrom } from "rxjs";
 import { LoaderComponent } from "../../shared/loader/loader.component";
 import { environment } from "../../../environments/environment";
 import { Router, RouterOutlet } from "@angular/router";
+import { NgOptimizedImage } from "@angular/common";
 
 @Component({
   selector: "app-street-photography",
   standalone: true,
-  imports: [LoaderComponent, RouterOutlet],
+  imports: [LoaderComponent, RouterOutlet, NgOptimizedImage],
   templateUrl: "./street-photography.component.html",
   styleUrl: "./street-photography.component.scss",
 })

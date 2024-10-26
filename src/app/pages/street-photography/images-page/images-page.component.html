@@ -6,7 +6,7 @@
   </div>
   @for (photo of photoFiles; track photo.id; let idx = $index) {
   <div class="box">
-    <img [src]="photo.thumbnailLink" alt="" />
+    <img [ngSrc]="photo.thumbnailLink" alt="" fill />
   </div>
   }
 </div>

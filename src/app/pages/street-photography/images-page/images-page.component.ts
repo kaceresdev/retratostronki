@@ -4,26 +4,30 @@ import { GoogleDriveService } from "../../../services/google-drive/google-drive.
 import { environment } from "../../../../environments/environment";
 import { map } from "rxjs";
 import { NgOptimizedImage } from "@angular/common";
+import { LoaderComponent } from "../../../shared/loader/loader.component";
 
 @Component({
   selector: "app-street-photography-images-page",
   standalone: true,
-  imports: [RouterLink, NgOptimizedImage],
+  imports: [RouterLink, NgOptimizedImage, LoaderComponent],
   templateUrl: "./images-page.component.html",
   styleUrl: "./images-page.component.scss",
 })
 export class StreetPhotographyImagesPageComponent implements OnInit {
   photoFiles: any[] = [];
   info: any;
+  isLoading = false;
 
   constructor(private activatedRoute: ActivatedRoute, private googleDriveService: GoogleDriveService) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.activatedRoute.params.subscribe((params) => {
       this.googleDriveService.getImages(params["id"]).subscribe((images) => {
         images.files.forEach((res: any) => {
           res = this._adjustThumbnail(res, 800);
           this.photoFiles.push(res);
+          this.isLoading = false;
         });
       });
     });

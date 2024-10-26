@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { StreetPhotographyComponent } from "./street-photography.component";
+import { PreviewPageComponent } from "./preview-page.component";
 
 describe("PhotosessionsComponent", () => {
-  let component: StreetPhotographyComponent;
-  let fixture: ComponentFixture<StreetPhotographyComponent>;
+  let component: PreviewPageComponent;
+  let fixture: ComponentFixture<PreviewPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StreetPhotographyComponent],
+      imports: [PreviewPageComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StreetPhotographyComponent);
+    fixture = TestBed.createComponent(PreviewPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Route, RouterLink } from "@angular/router";
+import { ActivatedRoute, Route, Router, RouterLink } from "@angular/router";
 import { GoogleDriveService } from "../../../services/google-drive/google-drive.service";
 import { environment } from "../../../../environments/environment";
 import { map } from "rxjs";
@@ -7,18 +7,21 @@ import { NgOptimizedImage } from "@angular/common";
 import { LoaderComponent } from "../../../shared/loader/loader.component";
 
 @Component({
-  selector: "app-street-photography-images-page",
+  selector: "app-images-page",
   standalone: true,
   imports: [RouterLink, NgOptimizedImage, LoaderComponent],
   templateUrl: "./images-page.component.html",
   styleUrl: "./images-page.component.scss",
 })
-export class StreetPhotographyImagesPageComponent implements OnInit {
+export class ImagesPageComponent implements OnInit {
+  currentUrl = "";
   photoFiles: any[] = [];
   info: any;
   isLoading = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private googleDriveService: GoogleDriveService) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private googleDriveService: GoogleDriveService) {
+    this.currentUrl = this.router.url.split("/")[1];
+  }
 
   ngOnInit(): void {
     this.isLoading = true;

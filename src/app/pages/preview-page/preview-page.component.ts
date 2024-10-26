@@ -6,18 +6,23 @@ import { environment } from "../../../environments/environment";
 import { Router, RouterOutlet } from "@angular/router";
 import { NgOptimizedImage } from "@angular/common";
 
+enum PagesMap {
+  "street-photography" = "Fotos Calle",
+  "events" = "Eventos",
+  "private-sessions" = "Sessiones privadas",
+}
+
 @Component({
-  selector: "app-street-photography",
+  selector: "app-preview-page",
   standalone: true,
   imports: [LoaderComponent, RouterOutlet, NgOptimizedImage],
-  templateUrl: "./street-photography.component.html",
-  styleUrl: "./street-photography.component.scss",
+  templateUrl: "./preview-page.component.html",
+  styleUrl: "./preview-page.component.scss",
 })
-export class StreetPhotographyComponent implements OnInit {
+export class PreviewPageComponent implements OnInit {
   isLoading = false;
-  menuItems = JSON.parse(sessionStorage.getItem("googleDriveFolders")!)
-    .folders.filter((folder: { id: string; name: string }) => folder.name === "Fotos Calle")[0]
-    .childs.map((item: { id: string; name: any }) => item.name);
+  currentUrl = "";
+  menuItems: string[] = [];
   activeTab: string = "";
   streetPhotosFolder: any;
   previewImages: any[] = [];
@@ -25,19 +30,26 @@ export class StreetPhotographyComponent implements OnInit {
   photoFoldersFiltered: any[] = [];
 
   readonly IMAGE_NO_PREVIEW = "assets/imgs/no_preview2.svg";
+  readonly CURRENT_URL_PAGE: string = "";
 
-  constructor(private googleDriveService: GoogleDriveService, private router: Router) {}
+  constructor(private googleDriveService: GoogleDriveService, private router: Router) {
+    this.currentUrl = this.router.url.split("/").pop() || "";
+    this.CURRENT_URL_PAGE = PagesMap[this.currentUrl as keyof typeof PagesMap];
+  }
 
   async ngOnInit(): Promise<void> {
+    this.menuItems = JSON.parse(sessionStorage.getItem("googleDriveFolders")!)
+      .folders.filter((folder: { id: string; name: string }) => folder.name === this.CURRENT_URL_PAGE)[0]
+      .childs.map((item: { id: string; name: any }) => item.name);
     this.menuItems.push("Todas");
     this.menuItems = this.sortedMenuItems(this.menuItems);
     this.activeTab = this.menuItems[0];
 
-    this.streetPhotosFolder = this._findPrincipalFolder("Fotos Calle");
+    this.streetPhotosFolder = this._findPrincipalFolder(this.CURRENT_URL_PAGE);
 
     // Control para no recuperar la info cada vez que entramos en la pantalla
-    if (sessionStorage.getItem("googleDrivePreviewImages")) {
-      this.previewImages = JSON.parse(sessionStorage.getItem("googleDrivePreviewImages")!);
+    if (sessionStorage.getItem("googleDrivePreviewImages" + "-" + this.currentUrl)) {
+      this.previewImages = JSON.parse(sessionStorage.getItem("googleDrivePreviewImages" + "-" + this.currentUrl)!);
     } else {
       await this._getPreviewImages();
     }
@@ -87,7 +99,7 @@ export class StreetPhotographyComponent implements OnInit {
           this.previewImages.push(...res.files);
         }
       });
-      sessionStorage.setItem("googleDrivePreviewImages", JSON.stringify(this.previewImages));
+      sessionStorage.setItem("googleDrivePreviewImages" + "-" + this.currentUrl, JSON.stringify(this.previewImages));
     } catch (err) {
       console.error("Error al obtener las imágenes de vista previa:", err);
     }
@@ -114,6 +126,9 @@ export class StreetPhotographyComponent implements OnInit {
           item1.thumbnailLink = item2.thumbnailLink;
         }
       });
+      if (!item1.thumbnailLink) {
+        item1.thumbnailLink = this.IMAGE_NO_PREVIEW;
+      }
     });
 
     this.photoFolders = noPreviews;
@@ -145,14 +160,11 @@ export class StreetPhotographyComponent implements OnInit {
 
   // Función que se llama cuando una imagen falla
   onImageError(event: Event, folder: any) {
-    const imgElement = event.target as HTMLImageElement;
-    imgElement.src = this.IMAGE_NO_PREVIEW;
-
     folder.thumbnailLink = this.IMAGE_NO_PREVIEW;
   }
 
   viewFolder(folder: any) {
-    this.router.navigate(["street-photography", folder.id], { state: folder });
+    this.router.navigate([this.currentUrl, folder.id], { state: folder });
     window.scrollTo({ top: 0 });
   }
 }

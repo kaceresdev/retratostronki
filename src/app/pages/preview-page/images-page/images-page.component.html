@@ -1,5 +1,5 @@
 <div class="images-page">
-  <button class="images-page__btn-back" [routerLink]="['/street-photography']" (click)="scrollToTop()">< Volver</button>
+  <button class="images-page__btn-back" [routerLink]="['/' + currentUrl]" (click)="scrollToTop()">< Volver</button>
   <div class="images-page__data">
     <p>{{ info.description }}</p>
     <p>{{ info.name }}</p>

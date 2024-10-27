@@ -1,5 +1,5 @@
-<div class="street-photography">
-  <nav class="street-photography__nav">
+<div class="preview-page">
+  <nav class="preview-page__nav">
     <ul>
       @for (item of menuItems; track $index) {
       <li (click)="filter(item)" [class.active]="activeTab === item">
@@ -8,15 +8,17 @@
       }
     </ul>
   </nav>
-  @for (folder of photoFoldersFiltered; track folder.id; let idx = $index) {
-  <div class="box" (click)="viewFolder(folder)">
-    <img [ngSrc]="folder.thumbnailLink" (error)="onImageError($event, photoFoldersFiltered[idx])" fill />
-    <div class="box__text" [class.no-preview]="folder.thumbnailLink === IMAGE_NO_PREVIEW">
-      <p>{{ folder.description }}</p>
-      <p>{{ folder.name }}</p>
+  <div class="gallery">
+    @for (folder of photoFoldersFiltered; track folder.id; let idx = $index) {
+    <div class="box" (click)="viewFolder(folder)">
+      <img [ngSrc]="folder.thumbnailLink" (error)="onImageError($event, photoFoldersFiltered[idx])" fill />
+      <div class="box__text" [class.no-preview]="folder.thumbnailLink === IMAGE_NO_PREVIEW">
+        <p>{{ folder.description }}</p>
+        <p>{{ folder.name }}</p>
+      </div>
     </div>
+    }
   </div>
-  }
 </div>
 @if (isLoading) {
 <app-loader></app-loader>

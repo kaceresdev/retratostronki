@@ -4,11 +4,13 @@
     <p>{{ info.description }}</p>
     <p>{{ info.name }}</p>
   </div>
-  @for (photo of photoFiles; track photo.id; let idx = $index) {
-  <div class="box">
-    <img [ngSrc]="photo.thumbnailLink" alt="" fill />
+  <div class="gallery">
+    @for (photo of photoFiles; track photo.id; let idx = $index) {
+    <div class="box">
+      <img [ngSrc]="photo.thumbnailLink" alt="" fill />
+    </div>
+    }
   </div>
-  }
 </div>
 @if (isLoading) {
 <app-loader></app-loader>

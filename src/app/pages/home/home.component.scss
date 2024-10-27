@@ -6,10 +6,11 @@
     height: 100%;
     img {
       position: absolute;
-      max-height: 100%;
-      left: -50%;
+      height: 100%;
+      width: 100%;
       opacity: 0;
       transition: opacity 1s ease;
+      object-fit: cover;
     }
 
     img.active {
@@ -21,7 +22,7 @@
     }
     &__professional {
       position: absolute;
-      bottom: 5rem;
+      bottom: 10vh;
       width: 100%;
       h1 {
         font-family: "DMSans";

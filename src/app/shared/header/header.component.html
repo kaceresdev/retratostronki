@@ -1,5 +1,5 @@
-<div id="header" class="header">
-  <img src="assets/imgs/retratostronki-logo.jpg" alt="Retratos Tronki Logo" [routerLink]="'/'" />
+<div id="header" class="header" [ngClass]="{ top: isTop }">
+  <img src="assets/imgs/retratostronki-logo2.png" alt="Retratos Tronki Logo" [routerLink]="'/'" />
   <h1>RETRATOS TRONKI</h1>
   <div id="nav-icon" (click)="toggleNavIcon()">
     <span></span>

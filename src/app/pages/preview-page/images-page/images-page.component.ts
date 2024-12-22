@@ -23,16 +23,6 @@ export class ImagesPageComponent implements OnInit {
   currentImageIndex: number = 0;
   isViewerOpen: boolean = false;
   zoomScale: number = 1;
-  translateX: number = 0;
-  translateY: number = 0;
-
-  isDragging: boolean = false;
-  lastMouseX: number = 0;
-  lastMouseY: number = 0;
-
-  scale = 1;
-  offsetX = 0;
-  offsetY = 0;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private googleDriveService: GoogleDriveService) {
     this.currentUrl = this.router.url.split("/")[1];
@@ -42,13 +32,15 @@ export class ImagesPageComponent implements OnInit {
     this.isLoading = true;
     this.activatedRoute.params.subscribe((params) => {
       this.googleDriveService.getImages(params["id"]).subscribe((images) => {
-        images.files.forEach((res: any) => {
-          res = this._adjustThumbnail(res, 800);
-          this.photoFiles.push(res);
-          console.log(this.photoFiles);
-
+        if (images.files.length === 0) {
           this.isLoading = false;
-        });
+        } else {
+          images.files.forEach((res: any) => {
+            res = this._adjustThumbnail(res, 800);
+            this.photoFiles.push(res);
+            this.isLoading = false;
+          });
+        }
       });
     });
     this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe((state) => {
@@ -79,8 +71,6 @@ export class ImagesPageComponent implements OnInit {
   closeViewer(): void {
     this.isViewerOpen = false;
     this.zoomScale = 1;
-    this.translateX = 0;
-    this.translateY = 0;
     document.body.style.overflow = "";
     document.removeEventListener("keydown", this.handleKeyPress.bind(this));
   }
@@ -123,7 +113,7 @@ export class ImagesPageComponent implements OnInit {
     event.preventDefault();
     const zoomIntensity = 0.1;
     const delta = event.deltaY > 0 ? -zoomIntensity : zoomIntensity;
-    this.zoomScale = Math.min(Math.max(0.5, this.zoomScale + delta), 3);
+    this.zoomScale = Math.min(Math.max(1, this.zoomScale + delta), 2);
   }
 
   /**
@@ -131,8 +121,6 @@ export class ImagesPageComponent implements OnInit {
    */
   resetZoom(): void {
     this.zoomScale = 1;
-    this.translateX = 0;
-    this.translateY = 0;
   }
 
   scrollToTop() {

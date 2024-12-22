@@ -146,7 +146,12 @@
   z-index: 2;
 }
 
-.footer__develop__logo {
+.social-media {
+  width: 100%;
   bottom: 0;
   position: fixed;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
 }

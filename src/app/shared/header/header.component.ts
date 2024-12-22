@@ -32,10 +32,10 @@ export class HeaderComponent {
       title: "Eventos",
       route: "/events",
     },
-    {
-      title: "Sessiones privadas",
-      route: "/private-sessions",
-    },
+    // {
+    //   title: "Sessiones privadas",
+    //   route: "/private-sessions",
+    // },
   ];
   cristalType: boolean = false;
   isTop: boolean = false;

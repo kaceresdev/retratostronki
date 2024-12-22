@@ -6,12 +6,34 @@
   </div>
   <div class="gallery">
     @for (photo of photoFiles; track photo.id; let idx = $index) {
-    <div class="box">
+    <div class="box" (click)="openViewer(idx)">
       <img [ngSrc]="photo.thumbnailLink" alt="" fill />
     </div>
     }
   </div>
 </div>
-@if (isLoading) {
+<!-- Visor de imágenes (aparece solo si isViewerOpen es true) -->
+@if (isViewerOpen) {
+<div class="viewer" (wheel)="onWheel($event)">
+  <a class="download" download="{{ photoFiles[currentImageIndex].name }}" href="{{ photoFiles[currentImageIndex].webContentLink }}"
+    >Descargar<img src="assets/imgs/download.svg" alt="Download button" width="20"
+  /></a>
+  <!-- Botón de cerrar -->
+  <span class="close" (click)="closeViewer()">&times;</span>
+
+  <!-- Imagen grande -->
+  <img
+    #imageElement
+    [src]="photoFiles[currentImageIndex].thumbnailLink"
+    alt="Image Viewer"
+    id="viewer-image"
+    [style.transform]="'scale(' + zoomScale + ')'"
+  />
+
+  <!-- Botones de navegación -->
+  <button class="prev" (click)="prevImage()">&#10094;</button>
+  <button class="next" (click)="nextImage()">&#10095;</button>
+</div>
+} @if (isLoading) {
 <app-loader></app-loader>
 }

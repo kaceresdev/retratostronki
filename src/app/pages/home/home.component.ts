@@ -8,7 +8,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrl: "./home.component.scss",
 })
 export class HomeComponent implements OnInit {
-  images: string[] = ["assets/imgs/principal_1.jpg", "assets/imgs/principal_2.jpg", "assets/imgs/principal_3.jpg", "assets/imgs/principal_4.jpg"];
+  images: string[] = ["assets/imgs/principal_1.webp", "assets/imgs/principal_2.webp", "assets/imgs/principal_3.webp", "assets/imgs/principal_4.webp"];
 
   currentImageIndex = 0;
 

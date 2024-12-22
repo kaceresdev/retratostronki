@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Route, Router, RouterLink } from "@angular/router";
 import { GoogleDriveService } from "../../../services/google-drive/google-drive.service";
 import { environment } from "../../../../environments/environment";
@@ -14,10 +14,25 @@ import { LoaderComponent } from "../../../shared/loader/loader.component";
   styleUrl: "./images-page.component.scss",
 })
 export class ImagesPageComponent implements OnInit {
+  @ViewChild("imageElement", { static: false }) imageElement!: ElementRef;
   currentUrl = "";
   photoFiles: any[] = [];
   info: any;
   isLoading = false;
+
+  currentImageIndex: number = 0;
+  isViewerOpen: boolean = false;
+  zoomScale: number = 1;
+  translateX: number = 0;
+  translateY: number = 0;
+
+  isDragging: boolean = false;
+  lastMouseX: number = 0;
+  lastMouseY: number = 0;
+
+  scale = 1;
+  offsetX = 0;
+  offsetY = 0;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private googleDriveService: GoogleDriveService) {
     this.currentUrl = this.router.url.split("/")[1];
@@ -30,6 +45,8 @@ export class ImagesPageComponent implements OnInit {
         images.files.forEach((res: any) => {
           res = this._adjustThumbnail(res, 800);
           this.photoFiles.push(res);
+          console.log(this.photoFiles);
+
           this.isLoading = false;
         });
       });
@@ -44,6 +61,78 @@ export class ImagesPageComponent implements OnInit {
       ...image,
       thumbnailLink: environment.urlBaseServer + "/proxy-drive" + image.thumbnailLink.split("/drive-storage")[1].replace(/=s\d+/, `=s${resolution}`),
     };
+  }
+
+  /**
+   * Abre el visor con la imagen seleccionada.
+   * @param index índice de la imagen seleccionada.
+   */
+  openViewer(index: number): void {
+    this.currentImageIndex = index;
+    this.isViewerOpen = true;
+    document.addEventListener("keydown", this.handleKeyPress.bind(this));
+  }
+
+  /**
+   * Cierra el visor de imágenes.
+   */
+  closeViewer(): void {
+    this.isViewerOpen = false;
+    this.zoomScale = 1;
+    this.translateX = 0;
+    this.translateY = 0;
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", this.handleKeyPress.bind(this));
+  }
+
+  /**
+   * Muestra la imagen siguiente.
+   */
+  nextImage(): void {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.photoFiles.length;
+    this.resetZoom();
+  }
+
+  /**
+   * Muestra la imagen anterior.
+   */
+  prevImage(): void {
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.photoFiles.length) % this.photoFiles.length;
+    this.resetZoom();
+  }
+
+  /**
+   * Maneja las teclas de flechas y escape.
+   * @param event evento de teclado.
+   */
+  handleKeyPress(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      this.closeViewer();
+    } else if (event.key === "ArrowRight") {
+      this.nextImage();
+    } else if (event.key === "ArrowLeft") {
+      this.prevImage();
+    }
+  }
+
+  /**
+   * Detecta la rueda del ratón para hacer zoom.
+   * @param event evento de la rueda del ratón.
+   */
+  onWheel(event: WheelEvent): void {
+    event.preventDefault();
+    const zoomIntensity = 0.1;
+    const delta = event.deltaY > 0 ? -zoomIntensity : zoomIntensity;
+    this.zoomScale = Math.min(Math.max(0.5, this.zoomScale + delta), 3);
+  }
+
+  /**
+   * Resetea el zoom y la posición de la imagen.
+   */
+  resetZoom(): void {
+    this.zoomScale = 1;
+    this.translateX = 0;
+    this.translateY = 0;
   }
 
   scrollToTop() {

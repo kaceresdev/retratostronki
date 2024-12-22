@@ -1,40 +1,44 @@
 .about-me {
   margin-top: 5rem;
   background-color: #fbfbfb;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   img {
-    position: relative;
-    max-height: 25rem;
-    width: 711px;
-    left: -25%;
+    max-height: 20rem;
     aspect-ratio: 16/9;
   }
-  &__professional {
-    margin-top: 30px;
-    border-bottom: 1px solid transparent;
-    border-image: radial-gradient(circle, rgba(127, 127, 127, 1) 0%, rgba(251, 251, 251, 1) 70%);
-    border-image-slice: 1;
-    font-family: "DMSans";
-    h1 {
-      font-size: 25px;
+  &__info {
+    max-width: 600px;
+    &__professional {
+      margin-top: 30px;
+      border-bottom: 1px solid transparent;
+      border-image: radial-gradient(circle, rgba(127, 127, 127, 1) 0%, rgba(251, 251, 251, 1) 70%);
+      border-image-slice: 1;
+      font-family: "DMSans";
+      h1 {
+        font-size: 25px;
+        color: black;
+        text-align: center;
+        font-weight: 200;
+        margin: 0;
+      }
+      p {
+        font-size: 13px;
+        letter-spacing: 3px;
+        color: black;
+        text-align: center;
+        font-weight: 100;
+      }
+    }
+    &__description {
+      font-family: "DMSans";
+      font-size: 15px;
       color: black;
       text-align: center;
       font-weight: 200;
-      margin: 0;
+      padding: 1rem;
     }
-    p {
-      font-size: 13px;
-      letter-spacing: 3px;
-      color: black;
-      text-align: center;
-      font-weight: 100;
-    }
-  }
-  &__description {
-    font-family: "DMSans";
-    font-size: 15px;
-    color: black;
-    text-align: center;
-    font-weight: 200;
-    padding: 1rem;
   }
 }

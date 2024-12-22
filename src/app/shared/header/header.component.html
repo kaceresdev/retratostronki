@@ -1,5 +1,5 @@
 <div id="header" class="header" [ngClass]="{ top: isTop }">
-  <img src="assets/imgs/retratostronki-logo2.webp" height="80px" alt="Retratos Tronki Logo" [routerLink]="'/'" />
+  <img src="assets/imgs/retratostronki-logo2.webp" height="80px" alt="Retratos Tronki Logo" [routerLink]="'/'" (click)="scrollToTop('/')" />
   <h1>RETRATOS TRONKI</h1>
   <div id="nav-icon" (click)="toggleNavIcon()">
     <span></span>

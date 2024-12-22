@@ -63,6 +63,8 @@ export class ImagesPageComponent implements OnInit {
     this.currentImageIndex = index;
     this.isViewerOpen = true;
     document.addEventListener("keydown", this.handleKeyPress.bind(this));
+    document.documentElement.style.overflowY = "hidden";
+    document.body.style.overflowY = "hidden";
   }
 
   /**
@@ -73,6 +75,8 @@ export class ImagesPageComponent implements OnInit {
     this.zoomScale = 1;
     document.body.style.overflow = "";
     document.removeEventListener("keydown", this.handleKeyPress.bind(this));
+    document.documentElement.style.overflowY = "auto";
+    document.body.style.overflowY = "auto";
   }
 
   /**
@@ -81,6 +85,7 @@ export class ImagesPageComponent implements OnInit {
   nextImage(): void {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.photoFiles.length;
     this.resetZoom();
+    window.scrollBy({ top: 250, behavior: "smooth" });
   }
 
   /**
@@ -89,6 +94,7 @@ export class ImagesPageComponent implements OnInit {
   prevImage(): void {
     this.currentImageIndex = (this.currentImageIndex - 1 + this.photoFiles.length) % this.photoFiles.length;
     this.resetZoom();
+    window.scrollBy({ top: -250, behavior: "smooth" });
   }
 
   /**

@@ -68,7 +68,7 @@ export class HeaderComponent {
   }
 
   scrollToTop(route?: string) {
-    if (this.router.url === route || !route) {
+    if (this.router.url === route) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       window.scrollTo({ top: 0 });

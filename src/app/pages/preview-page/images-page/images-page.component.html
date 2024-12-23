@@ -15,16 +15,12 @@
   </div>
   <button id="btnToTop" class="images-page__toTop" (click)="scrollToTop()">&#8593;</button>
 </div>
-<!-- Visor de imágenes (aparece solo si isViewerOpen es true) -->
 @if (isViewerOpen) {
 <div class="viewer" (wheel)="onWheel($event)">
   <a class="download" download="{{ photoFiles[currentImageIndex].name }}" href="{{ photoFiles[currentImageIndex].webContentLink }}"
     >Descargar<img src="assets/imgs/download-icon.svg" alt="Download button" width="20"
   /></a>
-  <!-- Botón de cerrar -->
   <span class="close" (click)="closeViewer()">&times;</span>
-
-  <!-- Imagen grande -->
   <img
     #imageElement
     [src]="photoFiles[currentImageIndex].thumbnailLink"
@@ -32,8 +28,6 @@
     id="viewer-image"
     [style.transform]="'scale(' + zoomScale + ')'"
   />
-
-  <!-- Botones de navegación -->
   @if (currentImageIndex !== 0) {
   <button class="prev" (click)="prevImage()">&#10094;</button>
   } @if (currentImageIndex !== photoFiles.length - 1) {

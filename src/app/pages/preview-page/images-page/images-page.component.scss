@@ -57,6 +57,22 @@
       }
     }
   }
+  &__toTop {
+    padding: 1rem;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    font-size: larger;
+    font-family: "DMSans";
+    font-weight: bold;
+    border-radius: 50%;
+    background: linear-gradient(270deg, rgba(136, 136, 136, 1) 0%, rgba(251, 251, 251, 1) 70%);
+    aspect-ratio: 1 / 1;
+    border: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
 }
 
 /****************************

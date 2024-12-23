@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Route, Router, RouterLink } from "@angular/router";
 import { GoogleDriveService } from "../../../services/google-drive/google-drive.service";
 import { environment } from "../../../../environments/environment";
@@ -131,5 +131,17 @@ export class ImagesPageComponent implements OnInit {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    const scrollToTopBtn = document.getElementById("btnToTop");
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    if (scrollPosition > 150) {
+      scrollToTopBtn!.style.opacity = "1";
+    } else {
+      scrollToTopBtn!.style.opacity = "0";
+    }
   }
 }

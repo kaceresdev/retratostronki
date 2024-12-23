@@ -9,7 +9,7 @@
     <p class="no-info">Aún no hay imágenes, recarga o vuelve a intentarlo más tarde</p>
     } @else { @for (photo of photoFiles; track photo.id; let idx = $index) {
     <div class="box" (click)="openViewer(idx)">
-      <img [ngSrc]="photo.thumbnailLink" alt="" fill />
+      <img #imageElement [ngSrc]="photo.thumbnailLink" alt="" fill />
     </div>
     } }
   </div>
@@ -21,13 +21,7 @@
     >Descargar<img src="assets/imgs/download-icon.svg" alt="Download button" width="20"
   /></a>
   <span class="close" (click)="closeViewer()">&times;</span>
-  <img
-    #imageElement
-    [src]="photoFiles[currentImageIndex].thumbnailLink"
-    alt="Image Viewer"
-    id="viewer-image"
-    [style.transform]="'scale(' + zoomScale + ')'"
-  />
+  <img [src]="photoFiles[currentImageIndex].thumbnailLink" alt="Image Viewer" id="viewer-image" [style.transform]="'scale(' + zoomScale + ')'" />
   @if (currentImageIndex !== 0) {
   <button class="prev" (click)="prevImage()">&#10094;</button>
   } @if (currentImageIndex !== photoFiles.length - 1) {

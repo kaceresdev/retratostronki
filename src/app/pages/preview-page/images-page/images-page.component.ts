@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { ActivatedRoute, Route, Router, RouterLink } from "@angular/router";
 import { GoogleDriveService } from "../../../services/google-drive/google-drive.service";
 import { environment } from "../../../../environments/environment";
@@ -14,7 +14,7 @@ import { LoaderComponent } from "../../../shared/loader/loader.component";
   styleUrl: "./images-page.component.scss",
 })
 export class ImagesPageComponent implements OnInit {
-  @ViewChild("imageElement", { static: false }) imageElement!: ElementRef;
+  @ViewChildren("imageElement") imageElements!: QueryList<ElementRef>;
   currentUrl = "";
   photoFiles: any[] = [];
   info: any;
@@ -85,7 +85,7 @@ export class ImagesPageComponent implements OnInit {
   nextImage(): void {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.photoFiles.length;
     this.resetZoom();
-    window.scrollBy({ top: 250, behavior: "smooth" });
+    this.updateViewer(this.currentImageIndex);
   }
 
   /**
@@ -94,7 +94,16 @@ export class ImagesPageComponent implements OnInit {
   prevImage(): void {
     this.currentImageIndex = (this.currentImageIndex - 1 + this.photoFiles.length) % this.photoFiles.length;
     this.resetZoom();
-    window.scrollBy({ top: -250, behavior: "smooth" });
+    this.updateViewer(this.currentImageIndex);
+  }
+
+  updateViewer(index: number): void {
+    this.imageElements.forEach((img, i) => {
+      const element = img.nativeElement;
+      if (i === index) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
   }
 
   /**

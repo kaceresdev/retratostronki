@@ -13,6 +13,7 @@
     padding: 0;
     border-bottom: 0.5px solid black;
     line-height: 1.5rem;
+    cursor: pointer;
   }
   &__data {
     font-family: "DMSans";
@@ -145,7 +146,6 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    &:hover,
     &:active {
       color: #a5a5a5;
     }

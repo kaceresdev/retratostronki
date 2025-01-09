@@ -36,7 +36,7 @@ app.post("/send-email", (req, res) => {
     service: "gmail",
     auth: {
       user: "retratostronkiweb@gmail.com",
-      pass: "zqet pldk elwy jrkx",
+      pass: "zfcg wesv eyrb brvs",
     },
   });
 

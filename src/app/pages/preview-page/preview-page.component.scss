@@ -32,7 +32,7 @@
     justify-content: center;
     .box {
       position: relative;
-      background-color: rgba(180, 20, 28, 0.2);
+      background-color: #e7e7e7;
       aspect-ratio: 3 / 2;
       flex: 1 1 450px;
       max-width: 450px;
@@ -54,7 +54,8 @@
         color: white;
         font-weight: 400;
         letter-spacing: 0.5px;
-        padding-bottom: 1rem;
+        padding: 1rem 0;
+        background: radial-gradient(circle, rgb(107 105 105 / 50%) 20%, rgb(251 251 251 / 0%) 100%);
         p {
           text-align: center;
           margin: 0;

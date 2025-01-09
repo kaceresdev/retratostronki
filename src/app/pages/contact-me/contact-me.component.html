@@ -15,7 +15,13 @@
     </div>
   </form>
   @if (isEmailSend || isEmailKO) {
-  <app-modal [wasSent]="isEmailSend" (closeModal)="isEmailSend = false; isEmailKO = false"></app-modal>
+  <app-modal
+    [icon]="isEmailSend ? 'ok' : 'error'"
+    [text]="isEmailSend ? 'Mensaje enviado correctamente' : 'Se ha producido un error, vuelva a intentarlo más tarde'"
+    (closeModal)="isEmailSend = false; isEmailKO = false"
+  ></app-modal>
+  } @if (toGetImage) {
+  <app-modal [text]="'Contáctame para obtener tu imagen y la recibirás en máxima calidad y sin marca de agua, ¡GRATIS!'"></app-modal>
   }
 </div>
 @if (isLoading) {

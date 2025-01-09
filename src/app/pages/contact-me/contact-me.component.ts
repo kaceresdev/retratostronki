@@ -1,8 +1,9 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { EmailService } from "../../services/email/email.service";
 import { LoaderComponent } from "../../shared/loader/loader.component";
 import { ModalComponent } from "../../shared/modal/modal.component";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-contact-me",
@@ -11,10 +12,11 @@ import { ModalComponent } from "../../shared/modal/modal.component";
   templateUrl: "./contact-me.component.html",
   styleUrl: "./contact-me.component.scss",
 })
-export class ContactMeComponent {
+export class ContactMeComponent implements OnInit {
   isLoading = false;
   isEmailSend = false;
   isEmailKO = false;
+  toGetImage = false;
 
   mailForm = new FormGroup({
     email: new FormControl<string>("", [Validators.required, Validators.email]),
@@ -22,7 +24,13 @@ export class ContactMeComponent {
     message: new FormControl<string>("", Validators.required),
   });
 
-  constructor(private emailService: EmailService) {}
+  constructor(private route: ActivatedRoute, private emailService: EmailService) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.toGetImage = params["toGetImage"] === "true";
+    });
+  }
 
   sendEmail() {
     this.isLoading = true;

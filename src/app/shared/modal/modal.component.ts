@@ -4,12 +4,13 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 }
 @Component({
   selector: "app-modal",
   standalone: true,
-  imports: [NgIf],
+  imports: [],
   templateUrl: "./modal.component.html",
   styleUrl: "./modal.component.scss",
 })
 export class ModalComponent implements OnInit {
-  @Input() wasSent: boolean = false;
+  @Input() icon: string = "";
+  @Input() text: string = "";
   @Output() closeModal = new EventEmitter<void>();
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}

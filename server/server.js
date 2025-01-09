@@ -44,7 +44,10 @@ app.post("/send-email", (req, res) => {
     from: email,
     to: "retratostronkiweb@gmail.com",
     subject: subject,
-    text: message,
+    text: `
+      Contacto: ${email}
+      Mensaje: ${message}    
+    `,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

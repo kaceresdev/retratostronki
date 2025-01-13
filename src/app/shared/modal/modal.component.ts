@@ -9,19 +9,24 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 }
   styleUrl: "./modal.component.scss",
 })
 export class ModalComponent implements OnInit {
+  modal: any;
   @Input() icon: string = "";
   @Input() text: string = "";
-  @Output() closeModal = new EventEmitter<void>();
+  @Output() closeModalEv = new EventEmitter<void>();
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit(): void {
-    const modal = this.el.nativeElement.querySelector("#modal");
-    this.renderer.listen(modal, "click", (event) => {
-      if (event.target === modal) {
-        this.renderer.setStyle(modal, "display", "none");
-        this.closeModal.emit();
+    this.modal = this.el.nativeElement.querySelector("#modal");
+    this.renderer.listen(this.modal, "click", (event) => {
+      if (event.target === this.modal) {
+        this.closeModal();
       }
     });
+  }
+
+  closeModal(): void {
+    this.renderer.setStyle(this.modal, "display", "none");
+    this.closeModalEv.emit();
   }
 }

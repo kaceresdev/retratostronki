@@ -156,9 +156,9 @@ export class ImagesPageComponent implements OnInit {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
     if (scrollPosition > 150) {
-      scrollToTopBtn!.style.opacity = "1";
+      scrollToTopBtn!.classList.add("show");
     } else {
-      scrollToTopBtn!.style.opacity = "0";
+      scrollToTopBtn!.classList.remove("show");
     }
   }
 }

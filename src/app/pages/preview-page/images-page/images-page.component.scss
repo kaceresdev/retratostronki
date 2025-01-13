@@ -67,7 +67,7 @@
       font-weight: 300;
       padding: 5px 20px;
       border-radius: 5px;
-      border-color: transparent;
+      border: none;
       background-color: lightsteelblue;
       img {
         vertical-align: middle;
@@ -90,15 +90,26 @@
     font-family: "DMSans";
     font-weight: bold;
     border-radius: 50%;
-    background: linear-gradient(270deg, rgba(136, 136, 136, 1) 0%, rgba(251, 251, 251, 1) 70%);
+    background: linear-gradient(270deg, rgb(176 196 222) 0%, rgba(251, 251, 251, 1) 70%);
     aspect-ratio: 1 / 1;
     border: none;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: 0.3s ease;
     color: black;
-    cursor: pointer;
+    scale: 0;
+    @starting-style {
+      scale: 1;
+    }
+
+    &.show {
+      scale: 1;
+      @starting-style {
+        scale: 0;
+      }
+    }
+
     &:hover,
     &:active {
+      cursor: pointer;
       box-shadow: 0px 0px 5px 0px #a5a5a5;
     }
   }

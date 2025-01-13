@@ -3,7 +3,7 @@ import { GoogleDriveService } from "../../services/google-drive/google-drive.ser
 import { firstValueFrom } from "rxjs";
 import { LoaderComponent } from "../../shared/loader/loader.component";
 import { environment } from "../../../environments/environment";
-import { Router, RouterOutlet } from "@angular/router";
+import { Router } from "@angular/router";
 import { NgOptimizedImage } from "@angular/common";
 
 enum PagesMap {
@@ -15,7 +15,7 @@ enum PagesMap {
 @Component({
   selector: "app-preview-page",
   standalone: true,
-  imports: [LoaderComponent, RouterOutlet, NgOptimizedImage],
+  imports: [LoaderComponent, NgOptimizedImage],
   templateUrl: "./preview-page.component.html",
   styleUrl: "./preview-page.component.scss",
 })

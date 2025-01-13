@@ -1,5 +1,5 @@
 <div class="images-page">
-  <button class="images-page__btn-back" [routerLink]="['/' + currentUrl]" (click)="scrollToTop()">< Volver</button>
+  <button class="images-page__btn-back" [routerLink]="['/' + currentUrl]" (click)="scrollToTop()">&lt; Volver</button>
   <div class="images-page__data">
     <p>{{ info.description }}</p>
     <p>{{ info.name }}</p>
@@ -13,6 +13,11 @@
     </div>
     } }
   </div>
+  @if (nextPageToken) {
+  <div class="images-page__pagination">
+    <button (click)="getImagesPage()">Mostrar más <img src="assets/imgs/arrow-down-icon.svg" alt="Contact button" width="20" /></button>
+  </div>
+  }
   <button id="btnToTop" class="images-page__toTop" (click)="scrollToTop()">&#8593;</button>
 </div>
 @if (isViewerOpen) {

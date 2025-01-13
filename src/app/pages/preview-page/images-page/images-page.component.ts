@@ -17,6 +17,8 @@ export class ImagesPageComponent implements OnInit {
   @ViewChildren("imageElement") imageElements!: QueryList<ElementRef>;
   currentUrl = "";
   photoFiles: any[] = [];
+  idFolder = "";
+  nextPageToken = "";
   info: any;
   isLoading = false;
 
@@ -29,22 +31,28 @@ export class ImagesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.activatedRoute.params.subscribe((params) => {
-      this.googleDriveService.getImages(params["id"]).subscribe((images) => {
-        if (images.files.length === 0) {
-          this.isLoading = false;
-        } else {
-          images.files.forEach((res: any) => {
-            res = this._adjustThumbnail(res, 800);
-            this.photoFiles.push(res);
-            this.isLoading = false;
-          });
-        }
-      });
+      this.idFolder = params["id"];
+      this.getImagesPage();
     });
     this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe((state) => {
       this.info = state;
+    });
+  }
+
+  getImagesPage() {
+    this.isLoading = true;
+    this.googleDriveService.getImages(this.idFolder, this.nextPageToken).subscribe((images) => {
+      this.nextPageToken = images.nextPageToken;
+      if (images.files.length === 0) {
+        this.isLoading = false;
+      } else {
+        images.files.forEach((res: any) => {
+          res = this._adjustThumbnail(res, 800);
+          this.photoFiles.push(res);
+          this.isLoading = false;
+        });
+      }
     });
   }
 

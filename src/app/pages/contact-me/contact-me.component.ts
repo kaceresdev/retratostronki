@@ -29,6 +29,9 @@ export class ContactMeComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.toGetImage = params["toGetImage"] === "true";
+      if (this.toGetImage) {
+        window.scrollTo({ top: 0 });
+      }
     });
   }
 

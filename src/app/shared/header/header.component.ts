@@ -21,16 +21,16 @@ export class HeaderComponent {
       route: "/about-me",
     },
     {
-      title: "Contacto",
-      route: "/contact-me",
-    },
-    {
       title: "Fotografías Calle",
       route: "/street-photography",
     },
     {
       title: "Eventos",
       route: "/events",
+    },
+    {
+      title: "Contacto",
+      route: "/contact-me",
     },
     // {
     //   title: "Sessiones privadas",

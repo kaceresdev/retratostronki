@@ -14,16 +14,22 @@
       <button type="submit" [disabled]="!mailForm.valid">Enviar</button>
     </div>
   </form>
-  @if (isEmailSend || isEmailKO) {
-  <app-modal
-    [icon]="isEmailSend ? 'ok' : 'error'"
-    [text]="isEmailSend ? 'Mensaje enviado correctamente' : 'Se ha producido un error, vuelva a intentarlo más tarde'"
-    (closeModal)="isEmailSend = false; isEmailKO = false"
-  ></app-modal>
-  } @if (toGetImage) {
-  <app-modal [text]="'Contáctame para obtener tu imagen y la recibirás en máxima calidad y sin marca de agua, ¡GRATIS!'"></app-modal>
-  }
+  <div class="contact-me__wa">
+    <p>o a través de</p>
+    <a href="https://wa.me/+34641649329?text=Hola%20retratos%20tronki%21%20Te%20contactaba%20para..." target="_blank">
+      <img src="assets/imgs/whatsapp-icon.svg" width="35" alt="Whatsapp" />
+    </a>
+  </div>
 </div>
-@if (isLoading) {
+
+@if (isEmailSend || isEmailKO) {
+<app-modal
+  [icon]="isEmailSend ? 'ok' : 'error'"
+  [text]="isEmailSend ? 'Mensaje enviado correctamente' : 'Se ha producido un error, vuelva a intentarlo más tarde'"
+  (closeModal)="isEmailSend = false; isEmailKO = false"
+></app-modal>
+} @if (toGetImage) {
+<app-modal [text]="'Contáctame para obtener tu imagen y la recibirás en máxima calidad y sin marca de agua, ¡GRATIS!'"></app-modal>
+} @if (isLoading) {
 <app-loader></app-loader>
 }

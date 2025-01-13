@@ -18,7 +18,7 @@
 @if (isViewerOpen) {
 <div class="viewer" (wheel)="onWheel($event)">
   <a class="contact" (click)="closeViewer()" [routerLink]="['/contact-me']" [queryParams]="{ toGetImage: true }"
-    >Obten la imagen<img src="assets/imgs/download-icon.svg" alt="Contact button" width="20"
+    >Obtener imagen<img src="assets/imgs/download-icon.svg" alt="Contact button" width="20"
   /></a>
   <span class="close" (click)="closeViewer()">&times;</span>
   <img [src]="photoFiles[currentImageIndex].thumbnailLink" alt="Image Viewer" id="viewer-image" [style.transform]="'scale(' + zoomScale + ')'" />

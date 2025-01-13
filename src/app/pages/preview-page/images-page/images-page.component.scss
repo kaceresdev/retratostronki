@@ -98,13 +98,13 @@
   z-index: 1000;
   img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 70vh;
     transition: transform 0.2s ease;
   }
   .contact {
     position: absolute;
     top: 27px;
-    right: 70px;
+    left: 27px;
     font-size: 17px;
     font-weight: bold;
     border-radius: 5px;

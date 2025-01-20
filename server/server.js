@@ -31,6 +31,7 @@ app.post("/send-email", (req, res) => {
   const email = req.body.email;
   const subject = req.body.subject;
   const message = req.body.message;
+  const imgContact = req.body.imgContact;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -46,6 +47,7 @@ app.post("/send-email", (req, res) => {
     subject: subject,
     text: `
       Contacto: ${email}
+      Imagen de contacto: ${imgContact}
       Mensaje: ${message}    
     `,
   };

@@ -4,6 +4,7 @@ import { EmailService } from "../../services/email/email.service";
 import { LoaderComponent } from "../../shared/loader/loader.component";
 import { ModalComponent } from "../../shared/modal/modal.component";
 import { ActivatedRoute } from "@angular/router";
+import { map } from "rxjs";
 
 @Component({
   selector: "app-contact-me",
@@ -16,7 +17,7 @@ export class ContactMeComponent implements OnInit {
   isLoading = false;
   isEmailSend = false;
   isEmailKO = false;
-  toGetImage = false;
+  imgContact: string = "";
 
   mailForm = new FormGroup({
     email: new FormControl<string>("", [Validators.required, Validators.email]),
@@ -24,21 +25,22 @@ export class ContactMeComponent implements OnInit {
     message: new FormControl<string>("", Validators.required),
   });
 
-  constructor(private route: ActivatedRoute, private emailService: EmailService) {}
+  constructor(private activatedRoute: ActivatedRoute, private emailService: EmailService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.toGetImage = params["toGetImage"] === "true";
-      if (this.toGetImage) {
-        window.scrollTo({ top: 0 });
-      }
+    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe((state) => {
+      this.imgContact = state.img;
     });
+
+    if (this.imgContact) {
+      window.scrollTo({ top: 0 });
+    }
   }
 
   sendEmail() {
     this.isLoading = true;
     this.emailService
-      .sendEmail(this.mailForm.get("email")?.value!, this.mailForm.get("subject")?.value!, this.mailForm.get("message")?.value!)
+      .sendEmail(this.mailForm.get("email")?.value!, this.mailForm.get("subject")?.value!, this.mailForm.get("message")?.value!, this.imgContact)
       .subscribe({
         next: (resp) => {
           this.isLoading = false;

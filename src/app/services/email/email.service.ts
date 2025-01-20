@@ -11,11 +11,12 @@ export class EmailService {
 
   constructor(private http: HttpClient) {}
 
-  sendEmail(email: string, subject: string, message: string): Observable<any> {
+  sendEmail(email: string, subject: string, message: string, imgContact: string): Observable<any> {
     const data = {
       email: email,
       subject: subject,
       message: message,
+      imgContact: imgContact,
     };
     return this.http.post(this.emailUrl, data, { responseType: "text" });
   }

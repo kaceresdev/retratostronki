@@ -76,6 +76,14 @@ export class ImagesPageComponent implements OnInit {
   }
 
   /**
+   * Go to contact with information
+   */
+  toContact(name: string) {
+    this.closeViewer();
+    this.router.navigate(["/contact-me"], { state: { img: this.info.name + " (" + this.info.description + ") -> " + name } });
+  }
+
+  /**
    * Cierra el visor de imágenes.
    */
   closeViewer(): void {

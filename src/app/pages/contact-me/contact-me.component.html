@@ -28,7 +28,7 @@
   [text]="isEmailSend ? 'Mensaje enviado correctamente' : 'Se ha producido un error, vuelva a intentarlo más tarde'"
   (closeModal)="isEmailSend = false; isEmailKO = false"
 ></app-modal>
-} @if (toGetImage) {
+} @if (imgContact) {
 <app-modal [text]="'Contáctame para obtener tu imagen y la recibirás en máxima calidad y sin marca de agua, ¡GRATIS!'"></app-modal>
 } @if (isLoading) {
 <app-loader></app-loader>

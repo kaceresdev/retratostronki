@@ -38,23 +38,49 @@ export class PreviewPageComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.menuItems = JSON.parse(sessionStorage.getItem("googleDriveFolders")!)
-      .folders.filter((folder: { id: string; name: string }) => folder.name === this.CURRENT_URL_PAGE)[0]
-      .childs.map((item: { id: string; name: any }) => item.name);
-    this.menuItems.push("Todas");
-    this.menuItems = this.sortedMenuItems(this.menuItems);
-    this.activeTab = this.menuItems[0];
+    this.isLoading = true;
+    this._waitForData()
+      .then(async () => {
+        this.menuItems.push("Todas");
+        this.menuItems = this.sortedMenuItems(this.menuItems);
+        this.activeTab = this.menuItems[0];
 
-    this.streetPhotosFolder = this._findPrincipalFolder(this.CURRENT_URL_PAGE);
+        this.streetPhotosFolder = this._findPrincipalFolder(this.CURRENT_URL_PAGE);
 
-    // Control para no recuperar la info cada vez que entramos en la pantalla
-    if (sessionStorage.getItem("googleDrivePreviewImages" + "-" + this.currentUrl)) {
-      this.previewImages = JSON.parse(sessionStorage.getItem("googleDrivePreviewImages" + "-" + this.currentUrl)!);
-    } else {
-      await this._getPreviewImages();
-    }
+        // Control para no recuperar la info cada vez que entramos en la pantalla
+        if (sessionStorage.getItem("googleDrivePreviewImages" + "-" + this.currentUrl)) {
+          this.previewImages = JSON.parse(sessionStorage.getItem("googleDrivePreviewImages" + "-" + this.currentUrl)!);
+          this.isLoading = false;
+        } else {
+          await this._getPreviewImages();
+        }
 
-    this._transformInfo(this.streetPhotosFolder.childs);
+        this._transformInfo(this.streetPhotosFolder.childs);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  private _waitForData(retries: number = 5): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.menuItems = JSON.parse(sessionStorage.getItem("googleDriveFolders")!)
+          .folders.filter((folder: { id: string; name: string }) => folder.name === this.CURRENT_URL_PAGE)[0]
+          .childs.map((item: { id: string; name: any }) => item.name);
+        resolve();
+      } catch (error) {
+        if (retries === 0) {
+          reject("Error al obtener los datos de las carpetas");
+        } else {
+          setTimeout(() => {
+            this._waitForData(retries - 1)
+              .then(resolve)
+              .catch(reject);
+          }, 1000);
+        }
+      }
+    });
   }
 
   sortedMenuItems(menuItems: string[]): string[] {
@@ -86,7 +112,6 @@ export class PreviewPageComponent implements OnInit {
   }
 
   private async _getPreviewImages(): Promise<void> {
-    this.isLoading = true;
     let previewsFoldersFound = this._findPreviewFolders(this.streetPhotosFolder.childs);
 
     const promises = previewsFoldersFound.map((preview) => firstValueFrom(this.googleDriveService.getImages(preview.id)));

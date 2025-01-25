@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
-import { ActivatedRoute, Route, Router, RouterLink } from "@angular/router";
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { GoogleDriveService } from "../../../services/google-drive/google-drive.service";
 import { environment } from "../../../../environments/environment";
 import { map } from "rxjs";
@@ -15,6 +15,9 @@ import { LoaderComponent } from "../../../shared/loader/loader.component";
 })
 export class ImagesPageComponent implements OnInit {
   @ViewChildren("imageElement") imageElements!: QueryList<ElementRef>;
+
+  handleKeyPressFn: any;
+
   currentUrl = "";
   photoFiles: any[] = [];
   idFolder = "";
@@ -28,6 +31,7 @@ export class ImagesPageComponent implements OnInit {
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private googleDriveService: GoogleDriveService) {
     this.currentUrl = this.router.url.split("/")[1];
+    this.handleKeyPressFn = this._handleKeyPress.bind(this);
   }
 
   ngOnInit(): void {
@@ -70,7 +74,7 @@ export class ImagesPageComponent implements OnInit {
   openViewer(index: number): void {
     this.currentImageIndex = index;
     this.isViewerOpen = true;
-    document.addEventListener("keydown", this.handleKeyPress.bind(this));
+    document.addEventListener("keydown", this.handleKeyPressFn);
     document.documentElement.style.overflowY = "hidden";
     document.body.style.overflowY = "hidden";
   }
@@ -79,8 +83,9 @@ export class ImagesPageComponent implements OnInit {
    * Go to contact with information
    */
   toContact(name: string) {
+    const nameFormated = name.split("/").pop();
     this.closeViewer();
-    this.router.navigate(["/contact-me"], { state: { img: this.info.name + " (" + this.info.description + ") -> " + name } });
+    this.router.navigate(["/contact-me"], { state: { img: this.info.name + " (" + this.info.description + ") -> " + nameFormated } });
   }
 
   /**
@@ -90,7 +95,7 @@ export class ImagesPageComponent implements OnInit {
     this.isViewerOpen = false;
     this.zoomScale = 1;
     document.body.style.overflow = "";
-    document.removeEventListener("keydown", this.handleKeyPress.bind(this));
+    document.removeEventListener("keydown", this.handleKeyPressFn);
     document.documentElement.style.overflowY = "auto";
     document.body.style.overflowY = "auto";
   }
@@ -113,6 +118,11 @@ export class ImagesPageComponent implements OnInit {
     this.updateViewer(this.currentImageIndex);
   }
 
+  /**
+   * Función que mueve el scroll para encontrarse siempre en la vista de la imagen que se está
+   * visualizando en el visualizador
+   * @param index de la imagen que se está visualizando
+   */
   updateViewer(index: number): void {
     this.imageElements.forEach((img, i) => {
       const element = img.nativeElement;
@@ -126,7 +136,7 @@ export class ImagesPageComponent implements OnInit {
    * Maneja las teclas de flechas y escape.
    * @param event evento de teclado.
    */
-  handleKeyPress(event: KeyboardEvent): void {
+  private _handleKeyPress(event: KeyboardEvent): void {
     if (event.key === "Escape") {
       this.closeViewer();
     } else if (event.key === "ArrowRight") {

@@ -1,0 +1,23 @@
+<div class="portfolio">
+  @for (item of [].constructor(19); track item; let idx = $index) {
+  <div class="box" (click)="openViewer(idx)">
+    <img #imageElement [ngSrc]="'assets/imgs/portfolio/portfolio_' + (idx + 1) + '.webp'" [priority]="idx === 0 || idx === 3" fill />
+  </div>
+  }
+</div>
+@if (isViewerOpen) {
+<div class="viewer" (wheel)="onWheel($event)">
+  <span class="close" (click)="closeViewer()">&times;</span>
+  <img
+    [src]="imageElements.get(currentImageIndex)?.nativeElement.src"
+    alt="Image Viewer"
+    id="viewer-image"
+    [style.transform]="'scale(' + zoomScale + ')'"
+  />
+  @if (currentImageIndex !== 0) {
+  <button class="prev" (click)="prevImage()">&#10094;</button>
+  } @if (currentImageIndex !== imageElements.length - 1) {
+  <button class="next" (click)="nextImage()">&#10095;</button>
+  }
+</div>
+}

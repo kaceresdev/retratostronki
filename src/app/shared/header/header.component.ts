@@ -21,6 +21,10 @@ export class HeaderComponent {
       route: "/about-me",
     },
     {
+      title: "Portfolio",
+      route: "/portfolio",
+    },
+    {
       title: "Fotografías Calle",
       route: "/street-photography",
     },

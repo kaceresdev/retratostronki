@@ -9,7 +9,7 @@
     <p class="no-info">Aún no hay imágenes, recarga o vuelve a intentarlo más tarde</p>
     } @else { @for (photo of photoFiles; track photo.id; let idx = $index) {
     <div class="box" (click)="openViewer(idx)">
-      <img #imageElement [ngSrc]="photo.thumbnailLink" alt="" fill />
+      <img #imageElement [ngSrc]="photo.thumbnailLink" [name]="photo.name" fill />
     </div>
     } }
   </div>
@@ -22,14 +22,14 @@
 </div>
 @if (isViewerOpen) {
 <div class="viewer" (wheel)="onWheel($event)">
-  <a class="contact" (click)="toContact(photoFiles[currentImageIndex].name)"
+  <a class="contact" (click)="toContact(imageElements.get(currentImageIndex)?.nativeElement.name)"
     >Obtener imagen<img src="assets/imgs/download-icon.svg" alt="Contact button" width="20"
   /></a>
   <span class="close" (click)="closeViewer()">&times;</span>
-  <img [src]="photoFiles[currentImageIndex].thumbnailLink" alt="Image Viewer" id="viewer-image" [style.transform]="'scale(' + zoomScale + ')'" />
+  <img [src]="imageElements.get(currentImageIndex)?.nativeElement.src" id="viewer-image" [style.transform]="'scale(' + zoomScale + ')'" />
   @if (currentImageIndex !== 0) {
   <button class="prev" (click)="prevImage()">&#10094;</button>
-  } @if (currentImageIndex !== photoFiles.length - 1) {
+  } @if (currentImageIndex !== imageElements.length - 1) {
   <button class="next" (click)="nextImage()">&#10095;</button>
   }
 </div>

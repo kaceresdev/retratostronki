@@ -1,7 +1,5 @@
-<div style="display: flex; justify-content: space-around;">
 <img src="src/assets/imgs/retratostronki-logo2.webp" alt="Logo retratostronki" width="200"/>
 <img src="src/assets/imgs/kaceresdev-rounded-logo-black.webp" alt="Logo kaceresdev" width="150"/>
-</div>
 
 # Retratostronki
 

@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const functions = require("firebase-functions");
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const config = require("./variables");
 
 const app = express();
 const port = 8443;
@@ -36,14 +37,14 @@ app.post("/send-email", (req, res) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "retratostronkiweb@gmail.com",
-      pass: "zfcg wesv eyrb brvs",
+      user: config.nodemailerUser,
+      pass: config.nodemailerPass,
     },
   });
 
   const mailOptions = {
     from: email,
-    to: "retratostronkiweb@gmail.com",
+    to: config.nodemailerUser,
     subject: subject,
     text: `
       Contacto: ${email}
